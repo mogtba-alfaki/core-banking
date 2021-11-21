@@ -10,7 +10,7 @@ Core banking system with nodejs, nest framework and mysql database
 6- make Transactions and keep track of it 
 
 
-Entities : 
+Entities :
 
 1- Customer : 
     id: 

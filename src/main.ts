@@ -1,17 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Db } from 'config/db.config';
+import { Db} from '../config/db.config'; 
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  try {
-    Db
-    .sync()
+  try { 
+    Db.sync({force: true})
     .then(async () => { 
       console.log("connected to db ....")
-      await app.listen(3000); 
     });
-  } catch (err) {
+    await app.listen(3000); 
+  } catch (err) { 
+    console.log(err); 
     console.log("Error: Something Went Wrong While Connecting to Db")
   }
 }

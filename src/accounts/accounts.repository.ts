@@ -3,6 +3,6 @@ import {Account} from "../accounts/account.entity";
 
 export class AccountRepository extends BaseRepository { 
     constructor() { 
-         super(Account); 
+         super(Account, "Account"); 
     }
 }

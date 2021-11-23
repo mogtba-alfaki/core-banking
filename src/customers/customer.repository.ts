@@ -4,6 +4,6 @@ import { Customer } from "./customer.entity";
 @Injectable() 
 export class CustomerRepository extends BaseRepository { 
     constructor() { 
-        super(Customer)
+        super(Customer, "customer")
     }
 }

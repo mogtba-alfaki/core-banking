@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CustomerRepository } from './customer.repository';
 import { AddCustomerDto } from './dto/AddCustomerDto';
-import { GetCustomerDto } from './dto/getCustomerDto';
 
 
 @Injectable()

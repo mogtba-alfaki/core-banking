@@ -20,6 +20,16 @@ export class AccountsController {
         return await this.accountService.addAccount(accountData);
     } 
 
+    @Patch("/deposit") 
+    async deposit(@Body() body): Promise<any> {   
+        return await this.accountService.depositMoney(body); 
+    } 
+
+    @Patch("/withdrawal") 
+    async withDrawal(@Body() body): Promise<any> {   
+        return await this.accountService.withdrawalMoney(body); 
+    } 
+
     @Patch("/updateAccount") 
     async updateAccount(@Body() accountData): Promise<any> { 
         return this.accountService.updateAccount(accountData); 

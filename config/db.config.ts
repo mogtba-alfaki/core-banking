@@ -7,6 +7,9 @@ export const Db = new Sequelize({
     database: process.env.DATABASE_NAME, 
     username: process.env.DATABASE_USER, 
     password: process.env.DATABASE_PASSWORD, 
-    dialect: "mysql",
+    dialect: "mysql", 
+    dialectOptions: { 
+        decimalNumbers: true
+    },
     host: process.env.HOST
 });

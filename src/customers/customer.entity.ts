@@ -19,7 +19,7 @@ export class Customer extends Model<ICustomer> implements ICustomer{
      },
      first_name: DataTypes.STRING(10), 
      last_name: DataTypes.STRING(10), 
-     email: DataTypes.STRING(10),  
+     email: DataTypes.STRING(20),  
      phone_number: DataTypes.STRING(15), 
      address: DataTypes.STRING(100), 
      password: DataTypes.STRING(15),

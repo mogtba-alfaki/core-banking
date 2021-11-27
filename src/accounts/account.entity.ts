@@ -7,6 +7,7 @@ export class Account extends Model<IAccount> implements IAccount{
   id: string;
   open_date: Date; 
   balance: number;  
+  status: string;
   static associate(models: any) { 
     Account.belongsTo(models.Customer, {
         onDelete: "SET NULL", 
@@ -23,7 +24,8 @@ Account.init({
     allowNull: false, 
     },
     open_date: DataTypes.DATE(),  
-    balance: DataTypes.DECIMAL(10, 2)
+    balance: DataTypes.DECIMAL(10, 2),
+    status: DataTypes.STRING(10)
 }, 
 { 
     sequelize: Db, 
@@ -34,4 +36,5 @@ export interface IAccount {
     id: string;
     open_date: Date; 
     balance: number; 
+    status: string;
 }

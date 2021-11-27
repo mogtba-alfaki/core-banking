@@ -1,5 +1,5 @@
 import { NotFoundException } from "@nestjs/common";
-import { NotFoundError } from "rxjs";
+import {randomUUID} from "crypto"
 
 export class BaseRepository{ 
     constructor(private model: any, private modelName: string) {
@@ -17,7 +17,8 @@ export class BaseRepository{
     }  
 
     async create(data): Promise<any>{ 
-        data.id = Date.now().toString(); 
+        // data.id = Date.now().toString();  
+        data.id  = randomUUID(); 
         return await this.model.create(data); 
     } 
 

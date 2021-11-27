@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Patch } from '@nestjs/common';
 import {Get, Post, Delete, Query, Body} from "@nestjs/common"; 
 import { AccountsService } from './accounts.service';
 
@@ -18,10 +18,16 @@ export class AccountsController {
     @Post("/addAccount") 
     async addAccount(@Body() accountData): Promise<any> {
         return await this.accountService.addAccount(accountData);
+    } 
+
+    @Patch("/updateAccount") 
+    async updateAccount(@Body() accountData): Promise<any> { 
+        return this.accountService.updateAccount(accountData); 
     }
 
-    @Delete() 
-    async deleteAccount(@Body() id: string): Promise<any> { 
+    @Delete("/deleteAccount") 
+    async deleteAccount(@Body("id") id : string): Promise<any> {  
+        console.log(id); 
         return await this.accountService.deleteAccount(id); 
     }
 }

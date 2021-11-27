@@ -4,5 +4,9 @@ import {Account} from "../accounts/account.entity";
 export class AccountRepository extends BaseRepository { 
     constructor() { 
          super(Account, "Account"); 
-    }
+    } 
+
+    async findWitoutFailing(whereQlause?, attributes?): Promise<any> { 
+        return await Account.findOne({where: whereQlause, attributes}); 
+    }   
 }

@@ -18,7 +18,7 @@ export class Account extends Model<IAccount> implements IAccount{
 
 Account.init({ 
     id: { 
-    type: DataTypes.STRING(15), 
+    type: DataTypes.STRING(50), 
     primaryKey: true, 
     allowNull: false, 
     },

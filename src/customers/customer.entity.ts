@@ -13,7 +13,7 @@ export class Customer extends Model<ICustomer> implements ICustomer{
  
    Customer.init({ 
      id: { 
-     type: DataTypes.STRING(15), 
+     type: DataTypes.STRING(50), 
      primaryKey: true, 
      allowNull: false, 
      },
@@ -21,9 +21,9 @@ export class Customer extends Model<ICustomer> implements ICustomer{
      last_name: DataTypes.STRING(10), 
      email: DataTypes.STRING(10),  
      phone_number: DataTypes.STRING(15), 
-     address: DataTypes.STRING(15), 
+     address: DataTypes.STRING(100), 
      password: DataTypes.STRING(15),
-   }, 
+   },  
     { 
      sequelize: Db, 
      modelName: "customers",  

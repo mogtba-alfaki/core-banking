@@ -34,7 +34,7 @@ export class AccountsService {
 
     async depositMoney(data: {customer_id: string, amount: number}): Promise<any> { 
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
-        if(account.status == "clesed") { 
+        if(account.status == "closed") { 
             throw new AccountEcxeption("this account is closed cannot deposit money", 400); 
         } 
        return  await this.accountRepository.updateOne(account.id, {balance: account.balance + data.amount}); 
@@ -42,12 +42,30 @@ export class AccountsService {
     
     async withdrawalMoney(data: {customer_id: string, amount: number} ): Promise<any> {
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
+        if(account.status == "closed") { 
+            throw new AccountEcxeption("this account is closed cannot deposit money", 400); 
+        } 
         if(account.balance < data.amount) { 
             throw new AccountEcxeption("your account balance is less than the withdrawal amount", 400); 
         }  
         return await this.accountRepository.updateOne(account.id, {balance: account.balance - data.amount}); 
     }   
      
+    async closeAccount(id: string): Promise<any> { 
+        const account = await this.accountRepository.findOne({"id": id}); 
+        if(account.status == "closed") {
+            throw new AccountEcxeption("this account already closed", 400); 
+        }   
+        return await this.accountRepository.updateOne(id, {"status": "closed"}); 
+    } 
+
+    async openAccount(id: string): Promise<any> { 
+        const account = await this.accountRepository.findOne({"id": id}); 
+        if(account.status == "open") {
+            throw new AccountEcxeption("this account already opened", 400); 
+        }   
+        return await this.accountRepository.updateOne(id, {"status": "open"}); 
+    }
 
     async updateAccount(data): Promise<any>  { 
         return await this.accountRepository.updateOne(data.id, data); 

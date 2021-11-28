@@ -28,7 +28,17 @@ export class AccountsController {
     @Patch("/withdrawal") 
     async withDrawal(@Body() body): Promise<any> {   
         return await this.accountService.withdrawalMoney(body); 
+    }  
+
+    @Patch("/openAccount") 
+    async openAccount(@Body("id") id:string): Promise<any> { 
+        return await this.accountService.openAccount(id); 
     } 
+    
+    @Patch("/closeAccount") 
+    async closeAccount(@Body("id") id:string): Promise<any> { 
+        return await this.accountService.closeAccount(id); 
+    }
 
     @Patch("/updateAccount") 
     async updateAccount(@Body() accountData): Promise<any> { 

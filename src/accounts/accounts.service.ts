@@ -6,9 +6,9 @@ import { AccountEcxeption } from './AcountExceptions';
 @Injectable()
 export class AccountsService {
 
-    constructor(
-        private accountRepository: AccountRepository,
-        private customerRepository: CustomerRepository){}
+    constructor(private accountRepository: AccountRepository,
+    private customerRepository: CustomerRepository){}
+    
     async getAll(): Promise<any> { 
         return  await this.accountRepository.findAll();  
     } 
@@ -48,7 +48,7 @@ export class AccountsService {
         return await this.accountRepository.updateOne(account.id, {balance: account.balance - data.amount}); 
     }   
      
-    
+
     async updateAccount(data): Promise<any>  { 
         return await this.accountRepository.updateOne(data.id, data); 
     } 

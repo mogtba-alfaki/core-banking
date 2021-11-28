@@ -31,7 +31,6 @@ export class AccountsService {
         return await this.accountRepository.create(data); 
     }   
 
-
     async depositMoney(data: {customer_id: string, amount: number}): Promise<any> { 
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
         if(account.status == "closed") { 
@@ -66,6 +65,15 @@ export class AccountsService {
         }   
         return await this.accountRepository.updateOne(id, {"status": "open"}); 
     }
+
+    async getAccountByCustomerId(customer_id: string): Promise<any> { 
+         await this.customerRepository.findOne({"id": customer_id}); 
+         const account  = await this.accountRepository.findOne({"customer_id": customer_id}); 
+        if(account.status == "closed") {
+            throw new AccountEcxeption("this account is closed", 400)
+        } 
+        return account; 
+    } 
 
     async updateAccount(data): Promise<any>  { 
         return await this.accountRepository.updateOne(data.id, data); 

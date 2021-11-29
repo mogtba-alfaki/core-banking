@@ -8,12 +8,6 @@ export class Account extends Model<IAccount> implements IAccount{
   open_date: Date; 
   balance: number;  
   status: string;
-  static associate(models: any) { 
-    Account.belongsTo(models.Customer, {
-        onDelete: "SET NULL", 
-        foreignKey: "user_id", 
-    }) 
-  }
  }; 
  
 

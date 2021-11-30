@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CustomerRepository } from 'src/customers/customer.repository';
+import { TransactionRepository } from 'src/transactions/transactions.repository';
 import { AccountRepository } from './accounts.repository';
 import { AccountEcxeption } from './AcountExceptions';
 
@@ -7,7 +8,8 @@ import { AccountEcxeption } from './AcountExceptions';
 export class AccountsService {
 
     constructor(private accountRepository: AccountRepository,
-    private customerRepository: CustomerRepository){}
+                private customerRepository: CustomerRepository, 
+                private transactionRepository: TransactionRepository){}
     
     async getAll(): Promise<any> { 
         return  await this.accountRepository.findAll();  
@@ -30,6 +32,26 @@ export class AccountsService {
         data.status = "open";  
         return await this.accountRepository.create(data); 
     }   
+    
+    async makeTransaction(data): Promise<any> { 
+        // find the from account and check if it's balance is valid  
+        const fromAccount = await this.accountRepository.findOne({"id": data.from})
+        this.checkAccountStatus(fromAccount.status); 
+        if(fromAccount.balance < data.amount){ 
+                throw new AccountEcxeption("your account blanace is less than the transfer amount", 400); 
+        } 
+        // find the to account and check if it is not closed 
+        const toAccount = await this.accountRepository.findOne({"id": data.to}); 
+        this.checkAccountStatus(toAccount.status); 
+        // deposite the money into the to account  
+        await this.accountRepository.updateOne(toAccount.id, {"balance": toAccount.balance + data.amount}); 
+        // substract the money from te from account   
+        await this.accountRepository.updateOne(fromAccount.id, {"balance": fromAccount.balance - data.amount});
+        // insert the trasaction to the transactions table  
+        const transaciton = await this.transactionRepository.create(data); 
+        // return transaciton details 
+        return transaciton; 
+    }
 
     async depositMoney(data: {customer_id: string, amount: number}): Promise<any> { 
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
@@ -81,5 +103,12 @@ export class AccountsService {
 
     async deleteAccount(id: string): Promise<any>  { 
         return await this.accountRepository.delete(id); 
+    } 
+
+    private checkAccountStatus(status: string): void { 
+        if(status == "closed") { 
+            throw new AccountEcxeption("this account is closed", 400); 
+        }
     }
 }
+

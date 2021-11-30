@@ -29,6 +29,11 @@ export class AccountsController {
     async withDrawal(@Body() body): Promise<any> {   
         return await this.accountService.withdrawalMoney(body); 
     }  
+    
+    @Post("/transferMoney") 
+    async transferMoney(@Body() body): Promise<any> { 
+        return await this.accountService.makeTransaction(body); 
+    } 
 
     @Patch("/openAccount") 
     async openAccount(@Body("id") id:string): Promise<any> { 

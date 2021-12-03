@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CustomerRepository } from 'src/customers/customer.repository';
 import { TransactionRepository } from 'src/transactions/transactions.repository';
 import { AccountRepository } from './accounts.repository';
-import { AccountEcxeption } from './AcountExceptions';
+import { AccountException } from './AcountExceptions';
 
 @Injectable()
 export class AccountsService {
@@ -26,7 +26,7 @@ export class AccountsService {
         const doseCustomerExists = await this.customerRepository.findOne({"id": data.customer_id}); 
         const customerAlreadyHasAccount = await this.accountRepository.findWitoutFailing({customer_id: data.customer_id}); 
         if(customerAlreadyHasAccount) { 
-            throw new AccountEcxeption("this customer already has an account", 400); 
+            throw new AccountException("this customer already has an account", 400); 
         }
         data.open_date = new Date();  
         data.status = "open";  
@@ -38,7 +38,7 @@ export class AccountsService {
         const fromAccount = await this.accountRepository.findOne({"id": data.from})
         this.checkAccountStatus(fromAccount.status); 
         if(fromAccount.balance < data.amount){ 
-                throw new AccountEcxeption("your account blanace is less than the transfer amount", 400); 
+                throw new AccountException("your account blanace is less than the transfer amount", 400); 
         } 
         // find the to account and check if it is not closed 
         const toAccount = await this.accountRepository.findOne({"id": data.to}); 
@@ -56,7 +56,7 @@ export class AccountsService {
     async depositMoney(data: {customer_id: string, amount: number}): Promise<any> { 
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
         if(account.status == "closed") { 
-            throw new AccountEcxeption("this account is closed cannot deposit money", 400); 
+            throw new AccountException("this account is closed cannot deposit money", 400); 
         } 
        return  await this.accountRepository.updateOne(account.id, {balance: account.balance + data.amount}); 
     }
@@ -64,10 +64,10 @@ export class AccountsService {
     async withdrawalMoney(data: {customer_id: string, amount: number} ): Promise<any> {
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
         if(account.status == "closed") { 
-            throw new AccountEcxeption("this account is closed cannot deposit money", 400); 
+            throw new AccountException("this account is closed cannot deposit money", 400); 
         } 
         if(account.balance < data.amount) { 
-            throw new AccountEcxeption("your account balance is less than the withdrawal amount", 400); 
+            throw new AccountException("your account balance is less than the withdrawal amount", 400); 
         }  
         return await this.accountRepository.updateOne(account.id, {balance: account.balance - data.amount}); 
     }   
@@ -75,7 +75,7 @@ export class AccountsService {
     async closeAccount(id: string): Promise<any> { 
         const account = await this.accountRepository.findOne({"id": id}); 
         if(account.status == "closed") {
-            throw new AccountEcxeption("this account already closed", 400); 
+            throw new AccountException("this account already closed", 400); 
         }   
         return await this.accountRepository.updateOne(id, {"status": "closed"}); 
     } 
@@ -83,7 +83,7 @@ export class AccountsService {
     async openAccount(id: string): Promise<any> { 
         const account = await this.accountRepository.findOne({"id": id}); 
         if(account.status == "open") {
-            throw new AccountEcxeption("this account already opened", 400); 
+            throw new AccountException("this account already opened", 400); 
         }   
         return await this.accountRepository.updateOne(id, {"status": "open"}); 
     }
@@ -92,7 +92,7 @@ export class AccountsService {
          await this.customerRepository.findOne({"id": customer_id}); 
          const account  = await this.accountRepository.findOne({"customer_id": customer_id}); 
         if(account.status == "closed") {
-            throw new AccountEcxeption("this account is closed", 400)
+            throw new AccountException("this account is closed", 400)
         } 
         return account; 
     } 
@@ -107,7 +107,7 @@ export class AccountsService {
 
     private checkAccountStatus(status: string): void { 
         if(status == "closed") { 
-            throw new AccountEcxeption("this account is closed", 400); 
+            throw new AccountException("this account is closed", 400); 
         }
     }
 }

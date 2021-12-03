@@ -13,5 +13,7 @@ export const associate =  async () => {
 
     Account.hasOne(Transaction, { 
         foreignKey: "to", 
-    })
+    }); 
+
+    
 }

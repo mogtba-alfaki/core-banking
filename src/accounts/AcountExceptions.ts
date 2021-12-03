@@ -1,5 +1,5 @@
 
-export class AccountEcxeption extends Error { 
+export class AccountException extends Error { 
     public statusCode: number; 
     constructor(message: string, statusCode: number) { 
         super(); 

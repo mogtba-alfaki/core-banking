@@ -9,8 +9,8 @@ async function bootstrap() {
   try {  
     await associate(); 
     await Db 
-    // .sync({force: true})
-    .sync()
+    .sync({force: true})
+    // .sync()
     .then(async () => { 
       console.log("connected to db ....")
     });

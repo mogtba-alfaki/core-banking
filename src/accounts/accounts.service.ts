@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CustomerRepository } from 'src/customers/customer.repository';
 import { TransactionRepository } from 'src/transactions/transactions.repository';
+import { Account } from './account.entity';
 import { AccountRepository } from './accounts.repository';
 import { AccountException } from './AcountExceptions';
 
@@ -11,15 +12,15 @@ export class AccountsService {
                 private customerRepository: CustomerRepository, 
                 private transactionRepository: TransactionRepository){}
     
-    async getAll(): Promise<any> { 
+    async getAll(): Promise<Account[]> { 
         return  await this.accountRepository.findAll();  
     } 
 
-    async getOne(id: string): Promise<any> { 
+    async getOne(id: string): Promise<Account> { 
        return await this.accountRepository.findOne({id: id}); 
     }  
 
-    async addAccount(data): Promise<any> {  
+    async addAccount(data): Promise<Account> {  
         if(!data.customer_id) {
             throw new BadRequestException("customer id is missing on te request")
         } 
@@ -53,7 +54,7 @@ export class AccountsService {
         return transaciton; 
     }
 
-    async depositMoney(data: {customer_id: string, amount: number}): Promise<any> { 
+    async depositMoney(data: {customer_id: string, amount: number}): Promise<Account> { 
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
         if(account.status == "closed") { 
             throw new AccountException("this account is closed cannot deposit money", 400); 
@@ -61,7 +62,7 @@ export class AccountsService {
        return  await this.accountRepository.updateOne(account.id, {balance: account.balance + data.amount}); 
     }
     
-    async withdrawalMoney(data: {customer_id: string, amount: number} ): Promise<any> {
+    async withdrawalMoney(data: {customer_id: string, amount: number} ): Promise<Account> {
         const account = await this.accountRepository.findOne({customer_id: data.customer_id}); 
         if(account.status == "closed") { 
             throw new AccountException("this account is closed cannot deposit money", 400); 
@@ -72,7 +73,7 @@ export class AccountsService {
         return await this.accountRepository.updateOne(account.id, {balance: account.balance - data.amount}); 
     }   
      
-    async closeAccount(id: string): Promise<any> { 
+    async closeAccount(id: string): Promise<Account> { 
         const account = await this.accountRepository.findOne({"id": id}); 
         if(account.status == "closed") {
             throw new AccountException("this account already closed", 400); 
@@ -80,7 +81,7 @@ export class AccountsService {
         return await this.accountRepository.updateOne(id, {"status": "closed"}); 
     } 
 
-    async openAccount(id: string): Promise<any> { 
+    async openAccount(id: string): Promise<Account> { 
         const account = await this.accountRepository.findOne({"id": id}); 
         if(account.status == "open") {
             throw new AccountException("this account already opened", 400); 
@@ -88,7 +89,7 @@ export class AccountsService {
         return await this.accountRepository.updateOne(id, {"status": "open"}); 
     }
 
-    async getAccountByCustomerId(customer_id: string): Promise<any> { 
+    async getAccountByCustomerId(customer_id: string): Promise<Account> { 
          await this.customerRepository.findOne({"id": customer_id}); 
          const account  = await this.accountRepository.findOne({"customer_id": customer_id}); 
         if(account.status == "closed") {
@@ -97,11 +98,11 @@ export class AccountsService {
         return account; 
     } 
 
-    async updateAccount(data): Promise<any>  { 
+    async updateAccount(data): Promise<Account>  { 
         return await this.accountRepository.updateOne(data.id, data); 
     } 
 
-    async deleteAccount(id: string): Promise<any>  { 
+    async deleteAccount(id: string): Promise<Account>  { 
         return await this.accountRepository.delete(id); 
     } 
 

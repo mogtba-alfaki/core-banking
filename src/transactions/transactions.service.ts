@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Transaction } from './transaction.entity';
 import { AccountRepository } from 'src/accounts/accounts.repository';
 import { AddTransactionDto } from './dto/AddTransactionDto';
 import { TransactionException } from './transaction.exceptions';
@@ -12,15 +13,15 @@ export class TransactionsService {
                 private accountRepository: AccountRepository, 
         ) {}
 
-    async getAll(): Promise<any> {
+    async getAll(): Promise<Transaction[]> {
         return await this.transactionRepository.findAll(); 
     } 
 
-    async getOne(id: string): Promise<any> { 
+    async getOne(id: string): Promise<Transaction> { 
        return await this.transactionRepository.findOne({"id": id}); 
     }  
 
-    async addTransaction(transaction: AddTransactionDto): Promise<any> { 
+    async addTransaction(transaction: AddTransactionDto): Promise<Transaction> { 
         if(!transaction.from || !transaction.amount || !transaction.to) { 
             throw new TransactionException("Missing important data to perform exception", 400);  
         } 
@@ -32,11 +33,11 @@ export class TransactionsService {
         return await this.transactionRepository.create(transaction); 
     } 
 
-    async updateTransaction(data): Promise<any>  { 
+    async updateTransaction(data): Promise<Transaction>  { 
         return await this.transactionRepository.updateOne(data.id, data); 
     } 
 
-    async deleteTransaction(id: string): Promise<any>  { 
+    async deleteTransaction(id: string): Promise<Transaction>  { 
         return await this.transactionRepository.delete(id); 
     }
 }

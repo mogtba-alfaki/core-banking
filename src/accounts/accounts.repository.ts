@@ -1,7 +1,7 @@
 import { BaseRepository } from "src/util/BaseRepository";
 import {Account} from "../accounts/account.entity"; 
 
-export class AccountRepository extends BaseRepository { 
+export class AccountRepository extends BaseRepository<Account> { 
     constructor() { 
          super(Account, "Account"); 
     } 

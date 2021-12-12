@@ -4,7 +4,7 @@ import { Transaction } from "./transaction.entity";
 
 
 @Injectable() 
-export class TransactionRepository extends BaseRepository { 
+export class TransactionRepository extends BaseRepository<Transaction> { 
     constructor() { 
         super(Transaction, "Transaction")
     }

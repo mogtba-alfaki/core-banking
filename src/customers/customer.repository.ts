@@ -5,5 +5,5 @@ import { Customer } from "./customer.entity";
 export class CustomerRepository extends BaseRepository<Customer> { 
     constructor() { 
         super(Customer, "customer")
-    }
+    } 
 }

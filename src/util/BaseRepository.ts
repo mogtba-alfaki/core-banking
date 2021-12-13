@@ -15,7 +15,11 @@ export class BaseRepository<T extends Model>{
             throw new NotFoundException(`${this.modelName} Not Found`); 
         } 
         return result; 
-    }  
+    }    
+
+    async findOneWithoutFailing(whereQlause?, attributes?): Promise<T>{ 
+        return  await this.model.findOne({where: whereQlause , attributes})
+    }    
 
     async create(data): Promise<T>{ 
         // data.id = Date.now().toString();  

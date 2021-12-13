@@ -22,7 +22,7 @@ export class Customer extends Model<ICustomer> implements ICustomer{
      email: DataTypes.STRING(20),  
      phone_number: DataTypes.STRING(15), 
      address: DataTypes.STRING(100), 
-     password: DataTypes.STRING(15),
+     password: DataTypes.STRING(100),
    },  
     { 
      sequelize: Db, 

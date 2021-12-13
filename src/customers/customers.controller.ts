@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { AddCustomerDto } from './dto/AddCustomerDto';
+import { CustomerLoginDto } from './dto/CustomerLoginDto';
 
 @Controller('/customers')
 export class CustomersController {
@@ -20,7 +21,12 @@ export class CustomersController {
     @Post("/addCustomer") 
     async addCustomer(@Body() customerData: AddCustomerDto): Promise<any> {
         return await this.customerService.addCustomer(customerData);
-    } 
+    }  
+
+    @Post("/login") 
+    async login(@Body() customerData: CustomerLoginDto): Promise<string> { 
+        return await this.customerService.login(customerData); 
+    }
 
     @Patch("/updateCustomer") 
     async updateCustomer(@Body() customerData): Promise<any> { 

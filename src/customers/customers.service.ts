@@ -23,7 +23,6 @@ export class CustomersService {
         if(customerFound) { 
             throw new CustomerException("this phone number already exists", 400); 
         }
-        // hash the password 
         data.password = await hash(data.password, 12); 
         return await this.customerRepository.create(data); 
     }  

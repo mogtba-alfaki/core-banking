@@ -12,9 +12,13 @@ export class BranchesController {
 
     @Get("/branch") 
     async getOne(@Query('id') id: string): Promise<any> {  
-            console.log(id); 
             return await this.branchService.getOne(id); 
     }
+
+    @Post("/fillAtm") 
+    async fillAtm(@Body() body): Promise<any> { 
+        return await this.branchService.fillAtm(body); 
+    } 
 
     @Post("/addBranch") 
     async addBranch(@Body() branchData): Promise<any> {

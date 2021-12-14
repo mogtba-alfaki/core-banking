@@ -4,6 +4,7 @@ import { TransactionRepository } from 'src/transactions/transactions.repository'
 import { Account } from './account.entity';
 import { AccountRepository } from './accounts.repository';
 import { AccountException } from './AcountExceptions';
+import { AddAccountDto } from './dto/addAccountDto';
 
 @Injectable()
 export class AccountsService {
@@ -20,7 +21,7 @@ export class AccountsService {
        return await this.accountRepository.findOne({id: id}); 
     }  
 
-    async addAccount(data): Promise<Account> {  
+    async addAccount(data: AddAccountDto): Promise<Account> {  
         if(!data.customer_id) {
             throw new BadRequestException("customer id is missing on te request")
         } 
@@ -28,9 +29,11 @@ export class AccountsService {
         const customerAlreadyHasAccount = await this.accountRepository.findWitoutFailing({customer_id: data.customer_id}); 
         if(customerAlreadyHasAccount) { 
             throw new AccountException("this customer already has an account", 400); 
-        }
-        data.open_date = new Date();  
-        data.status = "open";  
+        } 
+        Object.assign(data, { 
+            open_date: new Date(), 
+            status: "open", 
+        }); 
         return await this.accountRepository.create(data); 
     }   
     

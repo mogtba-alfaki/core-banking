@@ -1,6 +1,7 @@
 import { Controller, Patch } from '@nestjs/common';
 import {Get, Post, Delete, Query, Body} from "@nestjs/common"; 
 import { AccountsService } from './accounts.service';
+import { AddAccountDto } from './dto/addAccountDto';
 
 @Controller('accounts')
 export class AccountsController { 
@@ -16,7 +17,7 @@ export class AccountsController {
     }
 
     @Post("/addAccount") 
-    async addAccount(@Body() accountData): Promise<any> {
+    async addAccount(@Body() accountData: AddAccountDto): Promise<any> {
         return await this.accountService.addAccount(accountData);
     } 
 

@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common';
+import { Customer } from './customer.entity';
 import { CustomersService } from './customers.service';
 import { AddCustomerDto } from './dto/AddCustomerDto';
 import { CustomerLoginDto } from './dto/CustomerLoginDto';
@@ -8,18 +9,18 @@ export class CustomersController {
     constructor(private customerService: CustomersService){}
 
     @Get("/allCustomers")
-   async getAll(): Promise<any> { 
+   async getAll(): Promise<Customer[]> { 
         return await this.customerService.getAll(); 
     }
 
     @Get("/customer") 
-    async getOne(@Query('id') id: string): Promise<any> {  
+    async getOne(@Query('id') id: string): Promise<Customer> {  
             console.log(id); 
             return await this.customerService.getOne(id); 
     }
 
     @Post("/addCustomer") 
-    async addCustomer(@Body() customerData: AddCustomerDto): Promise<any> {
+    async addCustomer(@Body() customerData: AddCustomerDto): Promise<Customer> {
         return await this.customerService.addCustomer(customerData);
     }  
 
@@ -29,12 +30,12 @@ export class CustomersController {
     }
 
     @Patch("/updateCustomer") 
-    async updateCustomer(@Body() customerData): Promise<any> { 
+    async updateCustomer(@Body() customerData): Promise<Customer> { 
         return await this.customerService.updateCustomer(customerData); 
     }
 
     @Delete("/deleteCustomer") 
-    async deleteCustomer(@Body("id") id: string): Promise<any> { 
+    async deleteCustomer(@Body("id") id: string): Promise<Customer> { 
         return await this.customerService.deleteCustomer(id); 
     }
 }

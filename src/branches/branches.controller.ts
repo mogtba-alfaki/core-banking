@@ -16,22 +16,22 @@ export class BranchesController {
             return await this.branchService.getOne(id); 
     }
 
-    @Post("/fillAtm") 
+    @Post("/branch/atm") 
     async fillAtm(@Body() body): Promise<Branch> { 
         return await this.branchService.fillAtm(body); 
     } 
 
-    @Post("/addBranch") 
+    @Post("/branch") 
     async addBranch(@Body() branchData): Promise<Branch> {
         return await this.branchService.addBranch(branchData);
     } 
 
-    @Patch("/updateBranch") 
+    @Patch("/branch") 
     async updateBranch(@Body() branchData): Promise<Branch> { 
         return await this.branchService.updateBranch(branchData); 
     }
 
-    @Delete("/deleteBranch") 
+    @Delete("/branch") 
     async deleteBranch(@Body("id") id: string): Promise<Branch> { 
         return await this.branchService.deleteBranch(id); 
     }

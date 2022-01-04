@@ -19,7 +19,7 @@ export class CustomersController {
             return await this.customerService.getOne(id); 
     }
 
-    @Post("/addCustomer") 
+    @Post("/customer") 
     async addCustomer(@Body() customerData: AddCustomerDto): Promise<Customer> {
         return await this.customerService.addCustomer(customerData);
     }  
@@ -29,12 +29,12 @@ export class CustomersController {
         return await this.customerService.login(customerData); 
     }
 
-    @Patch("/updateCustomer") 
+    @Patch("/customer") 
     async updateCustomer(@Body() customerData): Promise<Customer> { 
         return await this.customerService.updateCustomer(customerData); 
     }
 
-    @Delete("/deleteCustomer") 
+    @Delete("/customer") 
     async deleteCustomer(@Body("id") id: string): Promise<Customer> { 
         return await this.customerService.deleteCustomer(id); 
     }

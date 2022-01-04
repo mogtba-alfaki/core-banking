@@ -14,21 +14,20 @@ export class TransactionsController {
 
     @Get("/transaction") 
     async getOne(@Query('id') id: string): Promise<Transaction> {  
-            console.log(id); 
             return await this.transactionService.getOne(id); 
     }
     
-    @Post("/addTransaction") 
+    @Post("/transaction") 
     async addTransaction(@Body() transactionData: AddTransactionDto): Promise<Transaction> {
         return await this.transactionService.addTransaction(transactionData);
     } 
 
-    @Patch("/updateTransaction") 
+    @Patch("/transaction") 
     async updateTransaction(@Body() transactionData): Promise<Transaction> { 
         return await this.transactionService.updateTransaction(transactionData); 
     }
 
-    @Delete("/deleteTransaction") 
+    @Delete("/transaction") 
     async deleteTransaction(@Body("id") id: string): Promise<Transaction> { 
         return await this.transactionService.deleteTransaction(id); 
     }

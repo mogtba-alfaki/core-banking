@@ -17,7 +17,7 @@ export class AccountsController {
             return await this.accountService.getOne(id); 
     }
 
-    @Post("/addAccount") 
+    @Post("/account") 
     async addAccount(@Body() accountData: AddAccountDto): Promise<Account> {
         return await this.accountService.addAccount(accountData);
     } 
@@ -37,22 +37,22 @@ export class AccountsController {
         return await this.accountService.makeTransaction(body); 
     } 
 
-    @Patch("/openAccount") 
+    @Patch("/open") 
     async openAccount(@Body("id") id:string): Promise<Account> { 
         return await this.accountService.openAccount(id); 
     } 
     
-    @Patch("/closeAccount") 
+    @Patch("/close") 
     async closeAccount(@Body("id") id:string): Promise<Account> { 
         return await this.accountService.closeAccount(id); 
     }
 
-    @Patch("/updateAccount") 
+    @Patch("/account") 
     async updateAccount(@Body() accountData): Promise<Account> { 
         return this.accountService.updateAccount(accountData); 
     }
 
-    @Delete("/deleteAccount") 
+    @Delete("/delete") 
     async deleteAccount(@Body("id") id : string): Promise<Account> {  
         console.log(id); 
         return await this.accountService.deleteAccount(id); 
